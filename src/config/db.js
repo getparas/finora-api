@@ -1,8 +1,6 @@
 import { neon } from "@neondatabase/serverless";
-
 import "dotenv/config";
-
-// Creates a SQL connection using our DB URL
+import logger from "./logger.js";
 export const sql = neon(process.env.DATABASE_URL);
 
 export async function initDB() {
@@ -15,10 +13,9 @@ export async function initDB() {
       category VARCHAR(255) NOT NULL,
       created_at DATE NOT NULL DEFAULT CURRENT_DATE
     )`;
-    // Simulating database initialization
-    console.log("✅ Database initialized successfully.");
+    logger.info("Database initialized successfully.");
   } catch (error) {
-    console.error("❌ Error initializing database:", error);
-    process.exit(1); // status code 1 indicates an error, 0 indicates success
+    logger.error("Error initializing database:", error);
+    process.exit(1);
   }
 }
